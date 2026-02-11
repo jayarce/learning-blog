@@ -1,0 +1,12 @@
+[
+    {
+        "title": "Day 1: The Tunnel is Live",
+        "date": "February 11, 2026",
+        "content": "I successfully connected my Mac to glykhol.ai using Cloudflare Tunnels and Docker Compose."
+    },
+    {
+        "title": "Current Goals",
+        "date": "February 10, 2026",
+        "content": "Learning Node.js, Docker, and eventually Kubernetes on the backend."
+    }
+]

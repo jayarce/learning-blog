@@ -1,0 +1,9 @@
+tunnel: 7c20db19-9352-4d19-9e21-91e0cbc7faa9
+credentials-file: /home/nonroot/.cloudflared/Y7c20db19-9352-4d19-9e21-91e0cbc7faa9L.json
+
+ingress:
+  - hostname: glykhol.ai
+    service: http://node-blog:3000
+  - hostname: blog.glykhol.ai
+    service: http://node-blog:3000
+  - service: http_status:404

@@ -1,0 +1,28 @@
+services:
+  blog-app:
+    build: .
+    container_name: node-blog
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - web-net
+    restart: always
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-connector
+    networks:
+      - web-net
+    restart: always
+    command: tunnel run --token ${TUNNEL_TOKEN}
+    # No need to list the token here anymore! 
+    # Docker Compose automatically looks for a .env file.
+
+networks:
+  web-net:
+    driver: bridge
+
+
