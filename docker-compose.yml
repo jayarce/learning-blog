@@ -10,6 +10,13 @@ services:
     networks:
       - web-net
     restart: always
+    healthcheck:
+      # Use Node.js to make a request instead of curl
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => { if (r.statusCode !== 200) throw new Error(r.statusCode) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tunnel:
     image: cloudflare/cloudflared:latest

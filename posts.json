@@ -1,4 +1,9 @@
-[
+[    
+    {
+        "title": "Day 1: Addendum",
+        "date": "February 11, 2026",
+        "content": "Kubernetes is live!"
+    },
     {
         "title": "Day 1: The Tunnel is Live",
         "date": "February 11, 2026",

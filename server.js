@@ -8,6 +8,16 @@ app.set('view engine', 'ejs');
 // Use path.join to create an absolute path to the public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+    // In a more complex app, you might check if the database is connected here
+    res.status(200).json({
+        status: 'UP',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
 app.get('/', (req, res) => {
     // Read the posts from our JSON file
     fs.readFile('./posts.json', 'utf8', (err, data) => {
