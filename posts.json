@@ -1,5 +1,10 @@
 [    
     {
+        "title": "Day 2: Troubleshooting",
+        "date": "February 12, 2026",
+        "content": "Troubleshooting site reliablity. Testing stern and k9s.\nEDIT: It was the QUIC(?) protocol for CloudFlare. Changed to HTTP2 and site is stable. Thanks, stern!"
+    },
+    {
         "title": "Day 1: Addendum",
         "date": "February 11, 2026",
         "content": "Kubernetes is live!"
