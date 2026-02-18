@@ -5,7 +5,7 @@ services:
     ports:
       - "${PORT}:${PORT}"
     volumes:
-      - .:/app
+      - .:/app:Z
       - /app/node_modules
     networks:
       - web-net
@@ -24,12 +24,10 @@ services:
     networks:
       - web-net
     restart: always
-    command: tunnel run --token ${TUNNEL_TOKEN}
+    command: tunnel run --token ${TUNNEL_TOKEN} --protocol http2 --url http://blog-app:${PORT}
     # No need to list the token here anymore! 
     # Docker Compose automatically looks for a .env file.
 
 networks:
   web-net:
     driver: bridge
-
-

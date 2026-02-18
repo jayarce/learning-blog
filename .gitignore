@@ -3,3 +3,6 @@ node_modules/
 .DS_Store
 secret.yaml
 kubectl*
+minikube*
+*.lock
+*.swp

@@ -1,4 +1,9 @@
-[    
+[   
+    {
+        "title": "Day 2: Moving Day",
+        "date": "February 12, 2026",
+        "content": "Moved stack to Almalinux on VirtualBox. Still using Cloudflare Tunnels and Docker Compose, but now with a more stable OS and more resources."
+    },
     {
         "title": "Day 2: Troubleshooting",
         "date": "February 12, 2026",
