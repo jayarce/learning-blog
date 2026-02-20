@@ -22,6 +22,19 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
+// Health check endpoint for Kubernetes Probes
+app.get('/health', (req, res) => {
+    // Check if the database is connected
+    const isDbConnected = mongoose.connection.readyState === 1;
+    
+    if (isDbConnected) {
+        res.status(200).json({ status: 'UP', database: 'connected' });
+    } else {
+        // If DB is down, report 500 so K8s knows this pod shouldn't take traffic
+        res.status(500).json({ status: 'DOWN', database: 'disconnected' });
+    }
+});
+
 app.get('/', async (req, res) => {
   const posts = await Post.find().sort({ date: -1 });
   res.render('index', { posts });

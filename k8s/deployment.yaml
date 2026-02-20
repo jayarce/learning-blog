@@ -18,6 +18,18 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10 # Give the app time to start
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
         env:
         - name: ADMIN_PASSWORD
           valueFrom:
