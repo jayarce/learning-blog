@@ -18,12 +18,15 @@
 
     <main>
         <% posts.forEach(post => { %>
-            <article class="post">
-                <div class="post-date"><%= post.date %></div>
-                <h2><%= post.title %></h2>
-                <p><%= post.content %></p>
-            </article>
-        <% }) %>
+    <article style="margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+        <h2>
+            <%= post.title %> 
+            <a href="/edit/<%= post._id %>" style="font-size: 12px; color: #999; text-decoration: none; margin-left: 10px;">(edit)</a>
+        </h2>
+        <p style="color: #666; font-size: 14px;"><%= post.date.toDateString() %></p>
+        <div style="white-space: pre-wrap;"><%= post.content %></div>
+    </article>
+<% }) %>
     </main>
 
     <footer>

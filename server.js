@@ -54,6 +54,32 @@ app.get('/admin', (req, res) => {
     `);
 });
 
+// GET route to show the edit form
+app.get('/edit/:id', async (req, res) => {
+    const post = await Post.findById(req.params.id);
+    res.send(`
+        <html><body style="font-family:sans-serif; max-width:500px; margin:auto; padding:20px;">
+            <h1>Edit Post</h1>
+            <form action="/edit/${post._id}" method="POST">
+                <input type="password" name="password" placeholder="Admin Password" style="width:100%; margin-bottom:10px;" required><br>
+                <input type="text" name="title" value="${post.title}" style="width:100%; margin-bottom:10px;" required><br>
+                <textarea name="content" style="width:100%; height:200px; margin-bottom:10px;" required>${post.content}</textarea><br>
+                <button type="submit" style="width:100%; background:#28a745; color:white; border:none; padding:10px;">Update Post</button>
+                <a href="/" style="display:block; text-align:center; margin-top:10px;">Cancel</a>
+            </form>
+        </body></html>
+    `);
+});
+
+// POST route to handle the update
+app.post('/edit/:id', async (req, res) => {
+    const { password, title, content } = req.body;
+    if (password !== ADMIN_PASSWORD) return res.status(403).send("Unauthorized");
+    
+    await Post.findByIdAndUpdate(req.params.id, { title, content });
+    res.redirect('/');
+});
+
 app.post('/admin', async (req, res) => {
     const { password, title, content } = req.body;
     if (password !== ADMIN_PASSWORD) return res.status(403).send("Unauthorized");
