@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const { marked } = require('marked');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -37,7 +38,7 @@ app.get('/health', (req, res) => {
 
 app.get('/', async (req, res) => {
   const posts = await Post.find().sort({ date: -1 });
-  res.render('index', { posts });
+  res.render('index', { posts, marked }); 
 });
 
 app.get('/admin', (req, res) => {
