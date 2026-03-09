@@ -5,6 +5,16 @@ set -e
 
 echo "🚀 Starting Deployment for glykhol.ai..."
 
+# 0. Check Minikube State and Start if not running
+
+echo "🔍 Checking Minikube status..."
+if ! minikube status > /dev/null 2>&1; then
+    echo "🚀 Starting Minikube..."
+    minikube start
+else
+    echo "✅ Minikube is already running"
+fi
+
 # 1. Point shell to Minikube's Docker daemon
 echo "🐳 Connecting to Minikube Docker environment..."
 eval $(minikube docker-env)
@@ -17,6 +27,13 @@ docker build -t glykhol-blog:latest .
 echo "💾 Applying Secrets and MongoDB..."
 kubectl apply -f k8s/secrets.yaml
 kubectl apply -f k8s/mongo-stack.yaml
+kubectl apply -f k8s/mongo-backup-cronjob.yaml
+
+# Patch backup PVC reclaim policy to Retain so data survives PVC deletion
+BACKUP_PV=$(kubectl get pvc mongo-backup-pvc -o jsonpath='{.spec.volumeName}' 2>/dev/null)
+if [ -n "$BACKUP_PV" ]; then
+    kubectl patch pv "$BACKUP_PV" -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' > /dev/null
+fi
 
 # 4. Apply Application
 echo "🌐 Applying Node.js Deployment and Service..."

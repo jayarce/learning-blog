@@ -30,6 +30,13 @@ spec:
             port: 3000
           initialDelaySeconds: 5
           periodSeconds: 10
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
         env:
         - name: ADMIN_PASSWORD
           valueFrom:
@@ -39,12 +46,26 @@ spec:
       - name: cloudflared
         image: cloudflare/cloudflared:latest
         args: ["tunnel", "--no-autoupdate", "run", "--protocol", "http2", "--url", "http://127.0.0.1:3000"]
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
         env:
         - name: TUNNEL_TOKEN
           valueFrom:
             secretKeyRef:
               name: cloudflare-tunnel-credentials
               key: TUNNEL_TOKEN
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 20241
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
